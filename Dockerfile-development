@@ -1,0 +1,27 @@
+FROM golang:1.16
+
+ARG app_name
+ARG build_number
+ARG version
+ENV env_build_number=${build_number}
+ENV env_version=${version}
+ENV GO111MODULE=on
+ENV ADDR=0.0.0.0
+ENV TZ=Asia/Bangkok
+
+RUN mkdir -p /go/src/github.com/church/church-api-eoffice
+WORKDIR /go/src/github.com/church/church-api-eoffice
+
+# Move to project folder
+WORKDIR /go/src/github.com/church/church-api-eoffice
+
+COPY . . 
+RUN go get -u github.com/githubnemo/CompileDaemon
+RUN go mod tidy     
+
+RUN  go build -o  /go/src/github.com/church/church-api-eoffice/tmp/app main.go
+
+EXPOSE 3000
+EXPOSE 3100
+
+ENTRYPOINT CompileDaemon -include=go.mod -log-prefix=false -color=true -build="go build -o ./tmp/app main.go" -command="./tmp/app" 

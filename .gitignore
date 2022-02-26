@@ -13,3 +13,12 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+.env
+
+.DS_Store
+cover.out
+coverage.html
+go.sum
+church-api-eoffic
+tmp/*
+.env

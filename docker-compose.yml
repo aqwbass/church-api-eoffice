@@ -1,0 +1,22 @@
+version: "3"
+
+services: 
+
+  church-api-eoffice:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile-development
+    container_name: church-api-eoffice
+    env_file: .env
+    networks: 
+      - default
+    ports:
+      - 3100:3000
+      - 3110:3100
+    volumes:
+      - .:/go/src/github.com/church/church-api-eoffice
+  
+networks:
+  default:
+    external:
+      name: church
